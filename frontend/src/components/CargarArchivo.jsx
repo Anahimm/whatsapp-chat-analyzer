@@ -66,8 +66,7 @@ export default function CargaArchivo({ onResultados }) {
             setLoading(false)
         }
     }
-
-    return (
+return (
         <form onSubmit={handleSubmit} className="cuerpo-formulario">
             
             {/* Zona de Drag & Drop interactiva */}
@@ -84,6 +83,7 @@ export default function CargaArchivo({ onResultados }) {
                     onChange={handleFileChange}
                     style={{ display: 'none' }}
                 />
+                
                 <label htmlFor="file-upload" className="zona-carga-label">
                     <span className="file-icon">{file ? '📦' : '📁'}</span>
                     
@@ -99,7 +99,6 @@ export default function CargaArchivo({ onResultados }) {
                 </label>
             </div>
 
-            {/* Mensaje de Error en UI (reemplaza al alert) */}
             {error && <div className="alerta-error">{error}</div>}
 
             <button type="submit" className="btn-wa" disabled={loading || !file}>

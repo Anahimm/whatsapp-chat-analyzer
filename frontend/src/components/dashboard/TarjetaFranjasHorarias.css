@@ -1,8 +1,11 @@
 .recharts-legend-wrapper {
     font-size: 12px;
-    font-family: inherit;
+    font-family: var(--sans); 
+    padding-top: 16px !important; 
 }
 
 .recharts-legend-item-text {
-    color: var(--texto-secundario) !important;
+    color: var(--text) !important; 
+    font-weight: 500; 
+    margin-left: 4px; 
 }

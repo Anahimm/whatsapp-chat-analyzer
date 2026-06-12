@@ -1,173 +1,69 @@
 /* =========================================
-  VARIABLES GLOBALES (PALETA WHATSAPP Y UI)
-   ========================================= */
-:root {
-  /* Colores */
-  --wa-verde-principal: #00a884;
-  --wa-verde-oscuro: #008f70;
-  --wa-verde-burbuja: #d9fdd3;
-  --wa-verde-texto: #25D366;
-  --wa-fondo: #efeae2;
-  
-  --texto-principal: #3b4a54;
-  --texto-secundario: #4b5563;
-  --texto-claro: #9ca3af;
-  --blanco: #ffffff;
-  
-  --borde-claro: #e5e7eb;
-  --borde-zona-carga: #b1b3b5;
-  --fondo-zona-carga: #f8f9fa;
-  --fondo-zona-hover: #f0fdfa;
-
-  /* Sombras y Bordes */
-  --sombra-tarjeta: 0 8px 24px rgba(149, 157, 165, 0.1);
-  --sombra-contenedor: 0 10px 30px rgba(0, 0, 0, 0.05);
-  --radio-tarjeta: 16px;
-  --borde-claro: rgba(229, 231, 235, 0.5); 
-}
-
-/* =========================================
   ESTILOS GENERALES Y CONTENEDORES
    ========================================= */
 .app-container {
-  background-color: var(--wa-fondo);
+  width: 100%;
   min-height: 100vh;
-  padding: 3rem 1rem;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color: var(--texto-principal);
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  font-family: var(--sans);
 }
 
 .contenedor-principal {
   width: 100%;
-  /* max-width: 550px; */
-  background-color: var(--blanco);
-  border-radius: var(--radio-tarjeta);
-  box-shadow: var(--sombra-contenedor);
+  background-color: var(--bg-card);
   overflow: hidden;
+  padding: 3rem 4rem;
+  box-sizing: border-box;
 }
 
 .modo-carga {
-  max-width: 550px;
+  max-width: 600px; 
+  margin-top: 4rem; 
 }
 
 .modo-tablero {
-  max-width: 80%;
+  width: 100%; 
 }
 
 /* =========================================
   CABECERA
    ========================================= */
 .cabecera-wa {
-  background-color: var(--blanco);
-  color: var(--texto-principal);
-  padding: 2rem 1rem 1rem 1rem;
+  background-color: transparent; 
+  color: var(--text-h);
+  padding: 0 1rem 2rem 1rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem;
-  border-bottom: 1px solid var(--borde-claro);
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
 }
 
 .cabecera-wa h1 {
-  color: var(--wa-verde-principal);
+  color: var(--accent);
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 700;
   line-height: 1.2;
-  max-width: 90%;
 }
 
 .cabecera-wa p {
   margin: 0;
-  opacity: 0.9;
-  font-size: 0.85rem;
-  line-height: 1.4;
-}
-
-/* =========================================
-  FORMULARIO DE CARGA
-   ========================================= */
-.cuerpo-formulario {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.zona-carga {
-  border: 2px dashed var(--borde-zona-carga);
-  border-radius: 8px;
-  padding: 2rem 1rem;
-  text-align: center;
-  background-color: var(--fondo-zona-carga);
-  transition: border-color 0.2s, background-color 0.2s;
-}
-
-.zona-carga:hover {
-  border-color: var(--wa-verde-principal);
-  background-color: var(--fondo-zona-hover);
-}
-
-.file-icon {
-  font-size: 2.5rem;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.file-label-text {
-  font-weight: 500;
-  color: var(--wa-verde-principal);
-  word-break: break-all;
-}
-
-.btn-wa {
-  background-color: var(--wa-verde-principal);
-  color: var(--blanco);
-  border: none;
-  padding: 0.85rem;
-  border-radius: 24px;
+  color: var(--text);
   font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s, transform 0.1s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.btn-wa:hover:not(:disabled) {
-  background-color: var(--wa-verde-oscuro);
-}
-
-.btn-wa:active:not(:disabled) {
-  transform: scale(0.98);
-}
-
-.btn-wa:disabled {
-  background-color: #94d7ca;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.alerta-exito {
-  margin-top: 1rem;
-  background-color: var(--wa-verde-burbuja);
-  border-left: 4px solid var(--wa-verde-principal);
-  padding: 1rem;
-  border-radius: 4px;
-  font-size: 0.95rem;
-  text-align: center;
 }
 
 /* =========================================
   SISTEMA DE CUADRÍCULA Y TARJETAS GLOBALES
    ========================================= */
-
 .tablero-container{
-  padding: 0 0.5rem 0.5rem 0.5rem;
+  padding: 0;
 }
 
 .grid-tablero {
@@ -177,26 +73,32 @@
 }
 
 .tarjeta {
-  background-color: var(--blanco);
+  background-color: var(--bg-card);
   padding: 1.5rem;
-  border-radius: var(--radio-tarjeta);
-  box-shadow: var(--sombra-tarjeta);
-  border: 1px solid var(--borde-claro);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-top: 4px solid var(--accent);
+}
+
+.tarjeta:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
 }
 
 .tarjeta-ancho-total {
   grid-column: 1 / -1;
 }
 
-
 .tarjeta-titulo {
   margin-top: 0;
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem; 
-  font-weight: 500;
+  margin-bottom: 1rem;
+  font-size: 0.85rem; 
+  font-weight: 600;
   text-transform: uppercase; 
-  letter-spacing: 0.5px;
-  color: var(--texto-claro); 
+  letter-spacing: 1px;
+  color: var(--text); 
 }
 
 /* =========================================
@@ -205,7 +107,7 @@
 .texto-destacado {
   font-size: 2.5rem; 
   font-weight: 800; 
-  color: var(--wa-verde-oscuro);
+  color: var(--accent);
   letter-spacing: -1px; 
   margin: 0;
 }
@@ -213,18 +115,11 @@
 .lista-datos {
   padding-left: 1.5rem;
   margin: 0;
-  color: var(--texto-secundario);
+  color: var(--text);
 }
 
 .lista-datos li {
   margin-bottom: 0.5rem;
-}
-
-.placeholder-grafico {
-  color: var(--texto-claro);
-  font-style: italic;
-  text-align: center;
-  padding: 2rem 0;
 }
 
 .flex-entre {
@@ -237,22 +132,46 @@
 /* =========================================
   GRAFICOS (RECHARTS)
    ========================================= */
-
 .recharts-text {
-  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
-  font-size: 16px; /* opcional, para que se vean más grandes */
+  font-family: var(--sans);
+  font-size: 14px; 
+  fill: var(--text);
 }
 
 @media (max-width: 700px) {
     .contenedor-principal {
-      max-width: 100%;
+      padding: 1.5rem 1rem;
     }
 
     .grid-tablero {
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: 1fr; 
     }
+}
 
-    .app-container {
-      padding: 0;
-    }
+/* =========================================
+  BOTÓN DEL TEMA (MODO OSCURO/CLARO)
+   ========================================= */
+.btn-tema {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 8px 18px;
+  border-radius: 24px;
+  cursor: pointer;
+  color: var(--text-h);
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-tema:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
 }

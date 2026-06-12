@@ -2,6 +2,9 @@
     position: relative;
     width: 100%;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .wordcloud-svg {
@@ -12,13 +15,14 @@
 
 .wordcloud-tooltip {
     position: fixed;
-    background-color: var(--blanco);
+    background-color: var(--bg-card); 
     padding: 8px 12px;
-    border: 1px solid var(--borde-claro);
-    border-radius: 6px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: var(--shadow-hover); 
     pointer-events: none; 
     z-index: 1000;
     font-size: 0.9rem;
-    color: var(--texto-principal);
+    font-weight: 500;
+    color: var(--text-h); 
 }

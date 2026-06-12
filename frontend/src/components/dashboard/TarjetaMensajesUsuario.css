@@ -1,5 +1,18 @@
+/* Texto de los ejes */
 .eje-x-usuarios text,
 .eje-y-usuarios text {
     font-size: 12px;
-    fill: var(--texto-claro);
+    fill: var(--text); 
+    font-family: var(--sans);
+}
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+    stroke: var(--border);
+    stroke-opacity: 0.3; 
+}
+
+/* Borra la línea negra gruesa del eje X e Y */
+.recharts-cartesian-axis-line {
+    stroke: transparent; 
 }
