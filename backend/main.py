@@ -148,6 +148,10 @@ async def analizar(archivo: UploadFile = File(...)):
     # Arma el formato que pide React (una lista de diccionarios)
     # Agarra el Top 50 para que la nube no sea muy extensa
     formato_react = [{"text": palabra, "value": cantidad} for palabra, cantidad in conteo_palabras.most_common(50)]
+    df['Rango_Horario'] = df['Rango_Horario'].astype(str)
+    # Nos quedamos solo con las columnas útiles para que el JSON no pese demasiado
+    columnas_utiles = ['Fecha', 'Hora', 'Usuario', 'Mensaje', 'Rango_Horario', 'Emojis']
+    mensajes_crudos = df[columnas_utiles].to_dict(orient='records')
 
     # --- RESPUESTA JSON FINAL  ---
     return {
@@ -156,5 +160,6 @@ async def analizar(archivo: UploadFile = File(...)):
         "dias_pico": dias_mas_activos.head(5).to_dict(),
         "horarios": franjas_agrupadas.to_dict(),
         "emojis": [{"emoji": e[0], "cantidad": e[1]} for e in conteo_emojis.most_common(5)],
-        "nube_palabras": formato_react
+        "nube_palabras": formato_react,
+        "mensajes_crudos": mensajes_crudos
     }

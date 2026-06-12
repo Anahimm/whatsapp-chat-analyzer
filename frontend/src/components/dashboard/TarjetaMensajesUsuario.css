@@ -16,3 +16,15 @@
 .recharts-cartesian-axis-line {
     stroke: transparent; 
 }
+
+/* =========================================
+ELIMINAR BORDE NEGRO DE FOCUS EN RECHARTS
+   ========================================= */
+.recharts-wrapper *:focus,
+.recharts-surface:focus,
+.recharts-bar-rectangle:focus,
+g:focus,
+path:focus, 
+rect:focus {
+    outline: none !important;
+}
