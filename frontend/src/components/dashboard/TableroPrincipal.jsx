@@ -1,21 +1,25 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import WordCloud from "./WordCloud";
-import './TableroPrincipal.css'
-// Componentes modulares
+import './TableroPrincipal.css';
+
+// Componentes
 import TarjetaTopEmojis from './TarjetaTopEmojis';
 import TarjetaMensajesUsuario from './TarjetaMensajesUsuario';
 import TarjetaFranjasHorarias from './TarjetaFranjasHorarias';
+import BotonExportarPDF from './ExportarPDF';
 
 export default function TableroPrincipal({ datos, onReiniciar }) {
+    
     const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(null);
+    const tableroRef = useRef(null); // Sigue acá para marcar qué parte se imprime
+
     const datosMostrados = useMemo(() => {
         if (!usuarioSeleccionado || !datos.mensajes_crudos) {
-            return datos;
+            return datos; 
         }
 
         const msjsFiltrados = datos.mensajes_crudos.filter(m => m.Usuario === usuarioSeleccionado);
 
-        // A. Recalcular Top 5 Emojis
         const conteoEmojis = {};
         msjsFiltrados.forEach(m => {
             if (m.Emojis) {
@@ -25,18 +29,16 @@ export default function TableroPrincipal({ datos, onReiniciar }) {
             }
         });
         const emojisFiltrados = Object.entries(conteoEmojis)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, 5)
+            .sort((a, b) => b[1] - a[1]) 
+            .slice(0, 5) 
             .map(([emoji, cantidad]) => ({ emoji, cantidad }));
 
-        // B. Recalcular Franjas Horarias
         const conteoHorarios = {};
         msjsFiltrados.forEach(m => {
             const rango = m.Rango_Horario;
             conteoHorarios[rango] = (conteoHorarios[rango] || 0) + 1;
         });
 
-        // C. Recalcular Días con más mensajes
         const conteoDias = {};
         msjsFiltrados.forEach(m => {
             conteoDias[m.Fecha] = (conteoDias[m.Fecha] || 0) + 1;
@@ -44,15 +46,17 @@ export default function TableroPrincipal({ datos, onReiniciar }) {
         const diasPicoFiltrados = Object.fromEntries(
             Object.entries(conteoDias).sort((a, b) => b[1] - a[1]).slice(0, 5)
         );
+
         return {
-            ...datos,
+            ...datos, 
             emojis: emojisFiltrados,
             horarios: conteoHorarios,
             dias_pico: diasPicoFiltrados
         };
-    }, [datos, usuarioSeleccionado]);
- return (
-        <div className="tablero-container tablero-wrapper">
+    }, [datos, usuarioSeleccionado]); 
+
+    return (
+        <div className="tablero-container tablero-wrapper" ref={tableroRef}>
 
             <div className="flex-entre">
                 <h2 className="titulo-principal">
@@ -64,7 +68,12 @@ export default function TableroPrincipal({ datos, onReiniciar }) {
                     )}
                 </h2>
                 
-                <div style={{ display: 'flex', gap: '10px' }}>
+                {/* Atributo para que este bloque de botones no salga en el PDF */}
+                <div style={{ display: 'flex', gap: '10px' }} data-html2canvas-ignore="true">
+                    
+                    {/* Le pasamos el targetRef al nuevo componente */}
+                    <BotonExportarPDF targetRef={tableroRef} nombreArchivo="Reporte_WhatsApp" />
+
                     {usuarioSeleccionado && (
                         <button 
                             className="btn-header" 
