@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from services import procesar_chat, generar_analisis
 
@@ -13,8 +13,13 @@ app.add_middleware(
 
 @app.post("/api/analizar")
 async def analizar(archivo: UploadFile = File(...)):
-    df = procesar_chat(archivo.file)
-    if df.empty:
-        return {"error": "No se pudo procesar el archivo zip"}
-    
-    return generar_analisis(df)
+    try:
+        # FastAPI permite pasar el archivo directo a la función
+        df = procesar_chat(archivo.file)
+        return generar_analisis(df)
+    except ValueError as e:
+        # Esto envía un código 400 al frontend, disparando el !res.ok
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        # Para cualquier otro error inesperado
+        raise HTTPException(status_code=500, detail="Ocurrió un error inesperado.")

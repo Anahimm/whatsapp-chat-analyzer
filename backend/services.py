@@ -11,9 +11,17 @@ def procesar_chat(archivo_zip_memoria):
     patron_ios = r'^\[(\d{1,2}/\d{1,2}/\d{2,4})[,\s]+(\d{1,2}:\d{2}(?::\d{2})?)\]\s([^:]+):\s(.*)$'
     patron_es_fecha = r'^\[?\d{1,2}/\d{1,2}/\d{2,4}'
 
+    if not zipfile.is_zipfile(archivo_zip_memoria):
+        raise ValueError("El archivo subido no es un formato ZIP válido.")
+    
     with zipfile.ZipFile(archivo_zip_memoria, 'r') as z:
         archivos_txt = [n for n in z.namelist() if n.endswith('.txt')]
-        if not archivos_txt: return pd.DataFrame()
+        if not archivos_txt: 
+            raise ValueError("El archivo ZIP no contiene un chat de WhatsApp (.txt).")
+        
+        # Validación de archivo vacío
+        if z.getinfo(archivos_txt[0]).file_size == 0:
+            raise ValueError("El archivo de chat está vacío.")
         
         with z.open(archivos_txt[0]) as f:
             mensaje_actual = None
@@ -36,10 +44,16 @@ def procesar_chat(archivo_zip_memoria):
                 elif mensaje_actual and linea_texto:
                     mensaje_actual['Mensaje'] += f" {linea_texto}"
 
+    if not datos_parseados:
+        raise ValueError("No se encontraron mensajes válidos en el archivo. ¿Es un chat de WhatsApp?")
+
     return pd.DataFrame(datos_parseados)
 
 def generar_analisis(df):
     """Calcula las métricas solicitadas para el front."""
+    if df.empty:
+        return {}
+
     df['Hora_Num'] = df['Hora'].apply(lambda x: int(x.split(':')[0]))
     limites = [-1, 6, 12, 19, 24]
     nombres_rangos = ['Madrugada (00-06hs)', 'Mañana (07-12hs)', 'Tarde (13-19hs)', 'Noche (20-23hs)']

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './CargarArchivo.css'
-export default function CargaArchivo({ onResultados }) {
+
+export default function CargaArchivo({ onResultados, onError }) {
     const [file, setFile] = useState(null)
     const [loading, setLoading] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
@@ -52,24 +53,26 @@ export default function CargaArchivo({ onResultados }) {
                 body: formData
             })
 
+            const data = await res.json()
+
             if (!res.ok) {
-                const errorText = await res.text()
-                throw new Error(`Error del servidor (${res.status}): ${errorText}`)
+                throw new Error(data.error || "El archivo no es un formato ZIP válido")
             }
 
-            const data = await res.json()
             onResultados(data)
-        } catch (error) {
-            console.error("Error detallado:", error)
-            setError(`Error al procesar el archivo. ¿Estás seguro de que es un chat válido exportado de WhatsApp?`)
+        } catch (err) {
+            console.error("Error detallado:", err)
+            onError(err.message)
+            setFile(null) // Limpiamos el archivo para obligar a una nueva selección
         } finally {
             setLoading(false)
         }
     }
+
     return (
         <form onSubmit={handleSubmit} className="cuerpo-formulario">
-
-            {/* Zona de Drag & Drop interactiva */}
+            
+            {/* Zona de carga */}
             <div
                 className={`zona-carga ${isDragging ? 'zona-carga-activa' : ''}`}
                 onDragOver={handleDragOver}
@@ -99,11 +102,15 @@ export default function CargaArchivo({ onResultados }) {
                 </label>
             </div>
 
+            {/* Aviso de Privacidad */}
             <div className="aviso-privacidad">
                 🔒 <b>Privacidad:</b> Tus chats se procesan localmente en memoria y no se guardan en nuestros servidores.
             </div>
+
+            {/* Alerta de Error */}
             {error && <div className="alerta-error">{error}</div>}
 
+            {/* Botón de envío */}
             <button type="submit" className="btn-wa" disabled={loading || !file}>
                 {loading ? (
                     <span className="flex-centro">
