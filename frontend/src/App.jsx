@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import CargaArchivo from './components/CargarArchivo'
 import TableroPrincipal from './components/dashboard/TableroPrincipal'
+import './index.css'
 import './App.css'
 
 function App() {

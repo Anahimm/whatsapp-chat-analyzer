@@ -65,9 +65,13 @@
 }
 
 body {
-  margin: 0;
-  background-color: var(--bg); 
-  color: var(--text);
+    margin: 0;
+    background-image: url('./fondo-carga.avif'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
 }
 
 #root {

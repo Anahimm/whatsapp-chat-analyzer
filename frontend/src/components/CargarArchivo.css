@@ -3,7 +3,7 @@ EL CONTENEDOR PRINCIPAL
    ================================ */
 .zona-carga {
     position: relative;
-    width: 100%;/
+    width: 100%;
     border: 2px dashed var(--border); 
     border-radius: 12px;
     background-color: var(--bg-card); 
@@ -14,10 +14,15 @@ EL CONTENEDOR PRINCIPAL
 /* Efecto al arrastrar archivo (o hacer hover en el label) */
 .zona-carga-activa, 
 .zona-carga:hover {
-    border-color: var(--accent-light);
-    background-color: rgba(37, 211, 102, 0.03); 
+    border-color: var(--accent);
+    background-color:var(--accent-bg);
 }
 
+.cuerpo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
 
 /* ================================
 EL ÁREA CLICKEABLE (LABEL)
@@ -112,4 +117,11 @@ TEXTOS Y COMPONENTES
 
 @keyframes girar {
     to { transform: rotate(360deg); }
+}
+
+.aviso-privacidad {
+    margin: 0;
+    padding: 10px 15px;
+    border-style: solid; 
+    opacity: 0.9; 
 }

@@ -6,7 +6,7 @@ export default function CargaArchivo({ onResultados }) {
     const [isDragging, setIsDragging] = useState(false)
     const [error, setError] = useState(null)
 
-// Manejadores de Drag & Drop
+    // Manejadores de Drag & Drop
     const handleDragOver = (e) => {
         e.preventDefault()
         setIsDragging(true)
@@ -21,7 +21,7 @@ export default function CargaArchivo({ onResultados }) {
         e.preventDefault()
         setIsDragging(false)
         setError(null)
-        
+
         const droppedFile = e.dataTransfer.files[0]
         if (droppedFile && droppedFile.name.endsWith('.zip')) {
             setFile(droppedFile)
@@ -42,7 +42,7 @@ export default function CargaArchivo({ onResultados }) {
 
         setLoading(true)
         setError(null)
-        
+
         const formData = new FormData()
         formData.append('archivo', file)
 
@@ -58,7 +58,7 @@ export default function CargaArchivo({ onResultados }) {
             }
 
             const data = await res.json()
-            onResultados(data) 
+            onResultados(data)
         } catch (error) {
             console.error("Error detallado:", error)
             setError(`Error al procesar el archivo. ¿Estás seguro de que es un chat válido exportado de WhatsApp?`)
@@ -66,11 +66,11 @@ export default function CargaArchivo({ onResultados }) {
             setLoading(false)
         }
     }
-return (
+    return (
         <form onSubmit={handleSubmit} className="cuerpo-formulario">
-            
+
             {/* Zona de Drag & Drop interactiva */}
-            <div 
+            <div
                 className={`zona-carga ${isDragging ? 'zona-carga-activa' : ''}`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -83,14 +83,14 @@ return (
                     onChange={handleFileChange}
                     style={{ display: 'none' }}
                 />
-                
+
                 <label htmlFor="file-upload" className="zona-carga-label">
                     <span className="file-icon">{file ? '📦' : '📁'}</span>
-                    
+
                     <span className="file-label-text">
                         {file ? file.name : 'Haz clic para seleccionar o arrastra tu .zip aquí'}
                     </span>
-                    
+
                     {!file && (
                         <span className="file-hint">
                             Abre WhatsApp {'>'} Info del grupo {'>'} Exportar chat {'>'} Sin archivos
@@ -99,6 +99,9 @@ return (
                 </label>
             </div>
 
+            <div className="aviso-privacidad">
+                🔒 <b>Privacidad:</b> Tus chats se procesan localmente en memoria y no se guardan en nuestros servidores.
+            </div>
             {error && <div className="alerta-error">{error}</div>}
 
             <button type="submit" className="btn-wa" disabled={loading || !file}>
